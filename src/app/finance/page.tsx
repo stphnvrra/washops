@@ -2,18 +2,12 @@
 
 import React, { useState } from 'react';
 import { useLaundry } from '@/context/LaundryContext';
-import { ExpenseCategory, Expense } from '@/types/laundry';
+import { ExpenseCategory } from '@/types/laundry';
 import {
   TrendingUp,
   TrendingDown,
   Coins,
-  Plus,
-  Calendar,
-  Filter,
-  DollarSign,
-  Tag,
-  Clock,
-  CheckCircle2
+  Plus
 } from 'lucide-react';
 
 export default function FinancePage() {

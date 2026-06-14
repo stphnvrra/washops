@@ -16,8 +16,7 @@ import {
   Database,
   HelpCircle,
   Menu,
-  X,
-  MessageSquare
+  X
 } from 'lucide-react';
 import Logo from '@/components/Logo';
 
@@ -232,6 +231,7 @@ export default function LandingPage() {
         <div className="lg:col-span-6 relative flex justify-center">
           <div className="absolute inset-0 bg-gradient-to-tr from-sky-500/10 to-indigo-500/10 blur-3xl rounded-full"></div>
           <div className="relative glass-card p-2 rounded-3xl overflow-hidden max-w-lg shadow-2xl border border-slate-800">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img 
               src="/laundry_hero.png" 
               alt="High-tech laundry shop" 
@@ -435,6 +435,7 @@ export default function LandingPage() {
         <div className="lg:col-span-6 relative flex justify-center order-last lg:order-first reveal-item">
           <div className="absolute inset-0 bg-gradient-to-tr from-teal-500/10 to-indigo-500/10 blur-3xl rounded-full"></div>
           <div className="relative glass-card p-2 rounded-3xl overflow-hidden max-w-lg shadow-2xl border border-slate-800">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img 
               src="/storage_billing.png" 
               alt="Usage billing storage" 

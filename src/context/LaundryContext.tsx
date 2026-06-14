@@ -76,6 +76,7 @@ export const LaundryProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     setMounted(true);
     loadAllData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Timer interval for machine countdown simulation
@@ -116,6 +117,7 @@ export const LaundryProvider = ({ children }: { children: ReactNode }) => {
     }, 12000); // Speed up for demo: 12 seconds in-app = 1 minute real cycle
 
     return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mounted]);
 
   // Toast notifications manager

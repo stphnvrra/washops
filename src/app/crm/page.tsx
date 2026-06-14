@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { useLaundry } from '@/context/LaundryContext';
 import { Customer, Order } from '@/types/laundry';
 import {
-  Users,
   Plus,
   Phone,
   Mail,
@@ -13,8 +12,6 @@ import {
   History,
   Coins,
   Search,
-  ChevronRight,
-  AlertTriangle,
   UserCheck
 } from 'lucide-react';
 

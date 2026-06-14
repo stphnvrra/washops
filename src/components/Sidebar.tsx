@@ -11,7 +11,6 @@ import {
   Cpu,
   Users,
   Package,
-  Menu,
   ChevronLeft,
   ChevronRight,
   LogOut,

@@ -2,16 +2,12 @@
 
 import React, { useState } from 'react';
 import { useLaundry } from '@/context/LaundryContext';
-import { Machine, MachineStatus } from '@/types/laundry';
+
 import {
-  Cpu,
   Play,
-  RotateCw,
   Wrench,
   AlertOctagon,
-  Clock,
-  CheckCircle,
-  ToggleLeft
+  Clock
 } from 'lucide-react';
 
 export default function MachinesPage() {
@@ -19,7 +15,6 @@ export default function MachinesPage() {
 
   // Cycle start selectors
   const [selectedCycles, setSelectedCycles] = useState<Record<string, string>>({});
-  const [customDurations, setCustomDurations] = useState<Record<string, number>>({});
 
   const washerCycles = [
     { name: 'Standard Wash', duration: 35 },

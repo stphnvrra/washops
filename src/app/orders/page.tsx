@@ -1,20 +1,16 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'next/navigation';
+
 import { useLaundry } from '@/context/LaundryContext';
-import { Order, OrderStatus, PaymentStatus, ServiceType, Customer } from '@/types/laundry';
+import { Order, OrderStatus, ServiceType } from '@/types/laundry';
 import {
   Search,
   Plus,
   Mail,
   MessageSquare,
   QrCode,
-  DollarSign,
-  Check,
   ChevronRight,
-  Filter,
-  Trash2,
   AlertCircle
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
@@ -239,7 +235,6 @@ export default function OrdersPage() {
         ) : (
           filteredOrders.map(order => {
             const isCompleted = order.orderStatus === 'Completed';
-            const isReady = order.orderStatus === 'Ready';
 
             return (
               <div

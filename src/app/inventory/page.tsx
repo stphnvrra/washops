@@ -9,9 +9,7 @@ import {
   RotateCw,
   Plus,
   Minus,
-  Sparkles,
-  CheckCircle,
-  HelpCircle
+  Sparkles
 } from 'lucide-react';
 
 export default function InventoryPage() {

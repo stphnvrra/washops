@@ -25,12 +25,11 @@ import {
   Tooltip,
   PieChart,
   Pie,
-  Cell,
-  Legend
+  Cell
 } from 'recharts';
 
 export default function Dashboard() {
-  const { orders, expenses, inventory, machines, customers } = useLaundry();
+  const { orders, inventory, machines } = useLaundry();
 
   // 1. Calculations for Stats Cards
   const activeOrders = orders.filter(o => o.orderStatus !== 'Completed');
