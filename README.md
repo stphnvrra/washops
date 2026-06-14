@@ -29,3 +29,26 @@ WashOps is a high-performance, visually stunning Next.js 15 SaaS workspace desig
 
 ---
 
+## ⚙️ Getting Started
+
+### Prerequisites
+*   Node.js v20.x or higher
+*   npm
+
+### Installation & Execution
+1.  Clone the repository:
+    ```bash
+    git clone https://github.com/stphnvrra/washops.git
+    ```
+2.  Install dependencies:
+    ```bash
+    npm install
+    ```
+3.  Run the local development server:
+    ```bash
+    npm run dev
+    ```
+4.  Run the production build locally:
+    ```bash
+    npm run build
+    ```
