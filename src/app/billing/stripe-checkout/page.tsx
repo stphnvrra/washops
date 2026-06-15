@@ -153,6 +153,9 @@ export default function StripeCheckoutSimulation() {
           });
           localStorage.setItem('washops_invoices', JSON.stringify(updated));
         }
+        
+        // Save the last 4 digits of card number used
+        localStorage.setItem('washops_card_last4', cleanCard.slice(-4));
       }
 
       setIsLoading(false);

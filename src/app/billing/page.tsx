@@ -44,6 +44,7 @@ export default function BillingPage() {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
   const [isAutoRenew, setIsAutoRenew] = useState<boolean>(true);
+  const [cardLast4, setCardLast4] = useState<string>('4242');
 
   // Dynamic storage calculations
   const baseStaticSize = 142.5; // system components, configurations, static imagery
@@ -68,6 +69,12 @@ export default function BillingPage() {
       const savedOverage = localStorage.getItem('washops_simulated_overage_mb');
       if (savedOverage) {
         setSimulatedOverage(parseFloat(savedOverage));
+      }
+
+      // Load card last 4 digits
+      const savedLast4 = localStorage.getItem('washops_card_last4');
+      if (savedLast4) {
+        setCardLast4(savedLast4);
       }
 
       // Load or seed invoices
@@ -375,16 +382,16 @@ export default function BillingPage() {
               
               <div className="flex justify-between items-start">
                 <div className="flex items-center gap-1 text-white text-xs font-black italic">
-                  <span className="bg-white/20 px-2 py-0.5 rounded text-[10px]">
-                    {isDemo ? 'DEMO' : 'ACTIVE'}
-                  </span>
+                  {isDemo && (
+                    <span className="bg-white/20 px-2 py-0.5 rounded text-[10px]">DEMO</span>
+                  )}
                   <span>WashOps Portal</span>
                 </div>
                 <CreditCard className="w-8 h-8 text-white/90" />
               </div>
 
               <div className="text-white">
-                <p className="text-base tracking-widest font-mono">•••• •••• •••• 4242</p>
+                <p className="text-base tracking-widest font-mono">•••• •••• •••• {isDemo ? '4242' : cardLast4}</p>
                 <div className="flex justify-between items-end mt-4">
                   <div>
                     <p className="text-[8px] text-white/50 uppercase font-semibold">Cardholder</p>
