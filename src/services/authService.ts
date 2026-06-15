@@ -41,34 +41,59 @@ export const authService = {
   async login(email: string, password: string): Promise<UserProfile> {
     if (isSupabaseConfigured && supabase) {
       console.log('Supabase Auth: Logging in...', email);
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
 
-      if (error) {
-        throw new Error(error.message);
-      }
+        if (error) {
+          const errMsg = error.message.toLowerCase();
+          if (
+            errMsg.includes('api key') ||
+            errMsg.includes('invalid') ||
+            errMsg.includes('failed to fetch') ||
+            error.status === 401 ||
+            error.status === 403
+          ) {
+            console.warn('Supabase credential/connection issue detected during login, falling back to Local Storage:', error.message);
+          } else {
+            throw new Error(error.message);
+          }
+        } else if (data?.user) {
+          // Fetch profile data from metadata or profiles table
+          const shopName = data.user.user_metadata?.shopName || 'My Laundry Store';
+          const fullName = data.user.user_metadata?.fullName || 'Shop Owner';
 
-      if (data?.user) {
-        // Fetch profile data from metadata or profiles table
-        const shopName = data.user.user_metadata?.shopName || 'My Laundry Store';
-        const fullName = data.user.user_metadata?.fullName || 'Shop Owner';
+          const profile: UserProfile = {
+            id: data.user.id,
+            email: data.user.email || email,
+            shopName,
+            fullName,
+            createdAt: data.user.created_at || new Date().toISOString(),
+          };
 
-        const profile: UserProfile = {
-          id: data.user.id,
-          email: data.user.email || email,
-          shopName,
-          fullName,
-          createdAt: data.user.created_at || new Date().toISOString(),
-        };
-
-        if (typeof window !== 'undefined') {
-          localStorage.setItem(KEYS.CURRENT_USER, JSON.stringify(profile));
+          if (typeof window !== 'undefined') {
+            localStorage.setItem(KEYS.CURRENT_USER, JSON.stringify(profile));
+          }
+          return profile;
+        } else {
+          console.warn('Supabase login returned empty user, falling back to Local Storage.');
         }
-        return profile;
+      } catch (err: any) {
+        const errMsg = err?.message?.toLowerCase() || '';
+        if (
+          errMsg.includes('api key') ||
+          errMsg.includes('invalid') ||
+          errMsg.includes('failed to fetch') ||
+          err?.status === 401 ||
+          err?.status === 403
+        ) {
+          console.warn('Supabase login exception, falling back to Local Storage:', err.message);
+        } else {
+          throw err;
+        }
       }
-      throw new Error('User data unavailable');
     }
 
     // Local Storage Mock Auth
@@ -99,36 +124,61 @@ export const authService = {
   async signUp(email: string, password: string, fullName: string, shopName: string): Promise<UserProfile> {
     if (isSupabaseConfigured && supabase) {
       console.log('Supabase Auth: Registering user...', email);
-      const { data, error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          data: {
-            fullName,
-            shopName,
+      try {
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: {
+              fullName,
+              shopName,
+            },
           },
-        },
-      });
+        });
 
-      if (error) {
-        throw new Error(error.message);
-      }
+        if (error) {
+          const errMsg = error.message.toLowerCase();
+          if (
+            errMsg.includes('api key') ||
+            errMsg.includes('invalid') ||
+            errMsg.includes('failed to fetch') ||
+            error.status === 401 ||
+            error.status === 403
+          ) {
+            console.warn('Supabase credential/connection issue detected during registration, falling back to Local Storage:', error.message);
+          } else {
+            throw new Error(error.message);
+          }
+        } else if (data?.user) {
+          const profile: UserProfile = {
+            id: data.user.id,
+            email: data.user.email || email,
+            shopName,
+            fullName,
+            createdAt: data.user.created_at || new Date().toISOString(),
+          };
 
-      if (data?.user) {
-        const profile: UserProfile = {
-          id: data.user.id,
-          email: data.user.email || email,
-          shopName,
-          fullName,
-          createdAt: data.user.created_at || new Date().toISOString(),
-        };
-
-        if (typeof window !== 'undefined') {
-          localStorage.setItem(KEYS.CURRENT_USER, JSON.stringify(profile));
+          if (typeof window !== 'undefined') {
+            localStorage.setItem(KEYS.CURRENT_USER, JSON.stringify(profile));
+          }
+          return profile;
+        } else {
+          console.warn('Supabase signUp returned empty user, falling back to Local Storage.');
         }
-        return profile;
+      } catch (err: any) {
+        const errMsg = err?.message?.toLowerCase() || '';
+        if (
+          errMsg.includes('api key') ||
+          errMsg.includes('invalid') ||
+          errMsg.includes('failed to fetch') ||
+          err?.status === 401 ||
+          err?.status === 403
+        ) {
+          console.warn('Supabase registration exception, falling back to Local Storage:', err.message);
+        } else {
+          throw err;
+        }
       }
-      throw new Error('Failed to register user.');
     }
 
     // Local Storage Mock Registration
@@ -182,16 +232,23 @@ export const authService = {
     if (typeof window === 'undefined') return null;
 
     if (isSupabaseConfigured && supabase) {
-      const { data } = await supabase.auth.getSession();
-      if (data?.session?.user) {
-        const u = data.session.user;
-        return {
-          id: u.id,
-          email: u.email || '',
-          shopName: u.user_metadata?.shopName || 'My Laundry Store',
-          fullName: u.user_metadata?.fullName || 'Shop Owner',
-          createdAt: u.created_at,
-        };
+      try {
+        const { data, error } = await supabase.auth.getSession();
+        if (!error && data?.session?.user) {
+          const u = data.session.user;
+          return {
+            id: u.id,
+            email: u.email || '',
+            shopName: u.user_metadata?.shopName || 'My Laundry Store',
+            fullName: u.user_metadata?.fullName || 'Shop Owner',
+            createdAt: u.created_at,
+          };
+        }
+        if (error) {
+          console.warn('Supabase getSession error, falling back to cached user:', error.message);
+        }
+      } catch (err: any) {
+        console.warn('Supabase getSession exception, falling back to cached user:', err.message);
       }
     }
 
