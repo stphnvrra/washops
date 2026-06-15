@@ -13,7 +13,9 @@ export default function SignupPage() {
   const [shopName, setShopName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
   const router = useRouter();
@@ -23,13 +25,18 @@ export default function SignupPage() {
     clearError();
     setValidationError(null);
 
-    if (!fullName || !shopName || !email || !password) {
+    if (!fullName || !shopName || !email || !password || !confirmPassword) {
       setValidationError('Please fill in all fields.');
       return;
     }
 
     if (password.length < 6) {
       setValidationError('Password must be at least 6 characters long.');
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      setValidationError('Passwords do not match.');
       return;
     }
 
@@ -157,6 +164,33 @@ export default function SignupPage() {
                 disabled={formLoading}
               >
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">
+              Confirm Password
+            </label>
+            <div className="relative">
+              <span className="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500">
+                <Lock className="w-4 h-4" />
+              </span>
+              <input
+                type={showConfirmPassword ? 'text' : 'password'}
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="Re-enter password"
+                className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-slate-800 bg-slate-900/60 text-slate-100 placeholder-slate-500 focus:outline-none focus:border-teal-500 text-sm transition"
+                disabled={formLoading}
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-500 hover:text-slate-300"
+                disabled={formLoading}
+              >
+                {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
             </div>
           </div>
