@@ -96,7 +96,7 @@ function InnerShell({ children }: { children: React.ReactNode }) {
 
       {/* Main Content Pane */}
       <div
-        className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ${
+        className={`flex-1 flex flex-col min-w-0 ${
           collapsed ? 'pl-20' : 'pl-64'
         }`}
       >
@@ -107,7 +107,7 @@ function InnerShell({ children }: { children: React.ReactNode }) {
               <p className="text-sm font-medium text-slate-400">Loading business ledger...</p>
             </div>
           ) : (
-            <div className="animate-fade-in">{children}</div>
+            <div>{children}</div>
           )}
         </main>
       </div>
