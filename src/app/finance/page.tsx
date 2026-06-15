@@ -283,90 +283,92 @@ export default function FinancePage() {
 
       {/* Record Expense Modal */}
       {isExpenseOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm">
-          <div className="glass-card max-w-md w-full p-6 rounded-2xl space-y-5">
-            <div className="flex justify-between items-center border-b border-slate-800/60 pb-3">
-              <h3 className="text-lg font-bold text-white">Record Shop Expense</h3>
-              <button
-                onClick={() => setIsExpenseOpen(false)}
-                className="text-slate-400 hover:text-white transition"
-              >
-                Close
-              </button>
-            </div>
-
-            <form onSubmit={handleAddExpense} className="space-y-4">
-              {/* Category */}
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Expense Category</label>
-                <select
-                  value={formCategory}
-                  onChange={(e) => setFormCategory(e.target.value as ExpenseCategory)}
-                  required
-                  className="w-full px-3 py-2.5 text-sm rounded-xl bg-slate-950/60 border border-slate-800 text-slate-200 focus:outline-none focus:border-sky-500/50"
-                >
-                  {categories.map(c => (
-                    <option key={c} value={c}>{c}</option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Amount & Date */}
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Amount (₱)</label>
-                  <input
-                    type="number"
-                    step="0.01"
-                    min="0.01"
-                    placeholder="0.00"
-                    value={formAmount || ''}
-                    onChange={(e) => setFormAmount(parseFloat(e.target.value) || 0)}
-                    required
-                    className="w-full px-3 py-2.5 text-sm rounded-xl bg-slate-950/60 border border-slate-800 text-slate-200 focus:outline-none focus:border-sky-500/50"
-                  />
-                </div>
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Expense Date</label>
-                  <input
-                    type="date"
-                    value={formDate}
-                    onChange={(e) => setFormDate(e.target.value)}
-                    required
-                    className="w-full px-3 py-2.5 text-sm rounded-xl bg-slate-950/60 border border-slate-800 text-slate-200 focus:outline-none focus:border-sky-500/50"
-                  />
-                </div>
-              </div>
-
-              {/* Description */}
-              <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Description / Notes</label>
-                <textarea
-                  rows={3}
-                  placeholder="Explain what was purchased or paid (e.g. Electric bill for May, 20L detergent replenishment...)"
-                  value={formDescription}
-                  onChange={(e) => setFormDescription(e.target.value)}
-                  required
-                  className="w-full px-3 py-2.5 text-sm rounded-xl bg-slate-950/60 border border-slate-800 text-slate-200 focus:outline-none focus:border-sky-500/50 resize-none"
-                />
-              </div>
-
-              <div className="flex gap-3 pt-2">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/70 backdrop-blur-sm">
+          <div className="flex min-h-full items-center justify-center p-4">
+            <div className="glass-card max-w-md w-full p-6 rounded-2xl space-y-5">
+              <div className="flex justify-between items-center border-b border-slate-800/60 pb-3">
+                <h3 className="text-lg font-bold text-white">Record Shop Expense</h3>
                 <button
-                  type="submit"
-                  className="flex-1 py-2.5 rounded-xl bg-rose-500 hover:bg-rose-400 text-white font-bold text-sm transition shadow-lg shadow-rose-500/10"
-                >
-                  Record Transaction
-                </button>
-                <button
-                  type="button"
                   onClick={() => setIsExpenseOpen(false)}
-                  className="flex-1 py-2.5 rounded-xl border border-slate-800 bg-slate-900 text-slate-300 text-sm hover:bg-slate-800 transition"
+                  className="text-slate-400 hover:text-white transition"
                 >
-                  Cancel
+                  Close
                 </button>
               </div>
-            </form>
+
+              <form onSubmit={handleAddExpense} className="space-y-4">
+                {/* Category */}
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Expense Category</label>
+                  <select
+                    value={formCategory}
+                    onChange={(e) => setFormCategory(e.target.value as ExpenseCategory)}
+                    required
+                    className="w-full px-3 py-2.5 text-sm rounded-xl bg-slate-950/60 border border-slate-800 text-slate-200 focus:outline-none focus:border-sky-500/50"
+                  >
+                    {categories.map(c => (
+                      <option key={c} value={c}>{c}</option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Amount & Date */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Amount (₱)</label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      min="0.01"
+                      placeholder="0.00"
+                      value={formAmount || ''}
+                      onChange={(e) => setFormAmount(parseFloat(e.target.value) || 0)}
+                      required
+                      className="w-full px-3 py-2.5 text-sm rounded-xl bg-slate-950/60 border border-slate-800 text-slate-200 focus:outline-none focus:border-sky-500/50"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Expense Date</label>
+                    <input
+                      type="date"
+                      value={formDate}
+                      onChange={(e) => setFormDate(e.target.value)}
+                      required
+                      className="w-full px-3 py-2.5 text-sm rounded-xl bg-slate-950/60 border border-slate-800 text-slate-200 focus:outline-none focus:border-sky-500/50"
+                    />
+                  </div>
+                </div>
+
+                {/* Description */}
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Description / Notes</label>
+                  <textarea
+                    rows={3}
+                    placeholder="Explain what was purchased or paid (e.g. Electric bill for May, 20L detergent replenishment...)"
+                    value={formDescription}
+                    onChange={(e) => setFormDescription(e.target.value)}
+                    required
+                    className="w-full px-3 py-2.5 text-sm rounded-xl bg-slate-950/60 border border-slate-800 text-slate-200 focus:outline-none focus:border-sky-500/50 resize-none"
+                  />
+                </div>
+
+                <div className="flex gap-3 pt-2">
+                  <button
+                    type="submit"
+                    className="flex-1 py-2.5 rounded-xl bg-rose-500 hover:bg-rose-400 text-white font-bold text-sm transition shadow-lg shadow-rose-500/10"
+                  >
+                    Record Transaction
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setIsExpenseOpen(false)}
+                    className="flex-1 py-2.5 rounded-xl border border-slate-800 bg-slate-900 text-slate-300 text-sm hover:bg-slate-800 transition"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       )}
