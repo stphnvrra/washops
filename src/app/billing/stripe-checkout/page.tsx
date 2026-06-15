@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { ArrowLeft, Lock, Loader2, CheckCircle2 } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
 import confetti from 'canvas-confetti';
 
 interface Invoice {
@@ -20,6 +21,8 @@ interface Invoice {
 export default function StripeCheckoutSimulation() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { user } = useAuth();
+  const isDemo = user?.email === 'demo@lms-saas.com';
 
   // Params
   const rawAmount = searchParams.get('amount') || '10.00';
@@ -27,12 +30,20 @@ export default function StripeCheckoutSimulation() {
   const amount = parseFloat(rawAmount);
 
   // Form states
-  const [email, setEmail] = useState('demo@lms-saas.com');
+  const [email, setEmail] = useState('');
   const [cardNumber, setCardNumber] = useState('');
   const [expiry, setExpiry] = useState('');
   const [cvc, setCvc] = useState('');
   const [cardName, setCardName] = useState('');
   const [country, setCountry] = useState('United States');
+
+  // Sync user details on load
+  useEffect(() => {
+    if (user) {
+      setEmail(user.email || '');
+      setCardName(user.fullName || '');
+    }
+  }, [user]);
   const [zipCode, setZipCode] = useState('');
 
   // Status states
@@ -256,14 +267,16 @@ export default function StripeCheckoutSimulation() {
         <div className="max-w-md w-full space-y-6">
           
           {/* Authentic Stripe Test Mode Banner */}
-          <div className="bg-[#fff9f2] border border-[#ffe6cc] text-[#c25800] text-xs p-3.5 rounded-md flex gap-2.5 items-start">
-            <div className="bg-[#ff8f00] text-white text-[9px] font-black tracking-wider px-1.5 py-0.5 rounded leading-none mt-0.5 uppercase">
-              Test Mode
+          {isDemo && (
+            <div className="bg-[#fff9f2] border border-[#ffe6cc] text-[#c25800] text-xs p-3.5 rounded-md flex gap-2.5 items-start">
+              <div className="bg-[#ff8f00] text-white text-[9px] font-black tracking-wider px-1.5 py-0.5 rounded leading-none mt-0.5 uppercase">
+                Test Mode
+              </div>
+              <div className="leading-relaxed font-medium">
+                <span className="font-bold text-[#8f4700]">Use a test card.</span> You can use card number <span className="font-mono bg-[#ffe3c6] px-1 py-0.25 rounded font-bold">4242 4242 4242 4242</span> with any future date and CVC to pay this simulated Stripe invoice.
+              </div>
             </div>
-            <div className="leading-relaxed font-medium">
-              <span className="font-bold text-[#8f4700]">Use a test card.</span> You can use card number <span className="font-mono bg-[#ffe3c6] px-1 py-0.25 rounded font-bold">4242 4242 4242 4242</span> with any future date and CVC to pay this simulated Stripe invoice.
-            </div>
-          </div>
+          )}
 
           <form onSubmit={handlePay} className="space-y-4">
             

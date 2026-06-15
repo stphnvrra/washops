@@ -35,6 +35,7 @@ interface Invoice {
 export default function BillingPage() {
   const { orders, customers, showToast } = useLaundry();
   const { user } = useAuth();
+  const isDemo = user?.email === 'demo@lms-saas.com';
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -48,7 +49,7 @@ export default function BillingPage() {
   const baseStaticSize = 142.5; // system components, configurations, static imagery
   const ordersSize = orders.length * 0.15; // 150 KB per order log
   const customersSize = customers.length * 0.08; // 80 KB per customer CRM entry
-  const totalStorageUsed = baseStaticSize + ordersSize + customersSize + simulatedOverage;
+  const totalStorageUsed = baseStaticSize + ordersSize + customersSize + (isDemo ? simulatedOverage : 0);
   const storageLimit = 500; // MB
   const storagePercentage = Math.min(100, (totalStorageUsed / storageLimit) * 100);
 
@@ -189,7 +190,9 @@ export default function BillingPage() {
           Billing & Storage Usage
         </h1>
         <p className="text-slate-400 text-sm mt-1">
-          Review database storage consumption limits, adjust mock file log backups, and manage simulated Stripe invoicing.
+          {isDemo 
+            ? "Review database storage consumption limits, adjust mock file log backups, and manage simulated Stripe invoicing."
+            : "Review database storage consumption limits, active subscriptions, and view billing invoices."}
         </p>
       </div>
 
@@ -265,55 +268,59 @@ export default function BillingPage() {
               <div className="p-3 bg-slate-900/40 rounded-xl border border-slate-800/50 flex items-center gap-3">
                 <Database className="w-8 h-8 text-indigo-400 flex-shrink-0" />
                 <div>
-                  <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Simulated Backups</p>
-                  <p className="text-sm font-black text-slate-200">{simulatedOverage.toFixed(0)} MB</p>
+                  <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">
+                    {isDemo ? 'Simulated Backups' : 'System Backups'}
+                  </p>
+                  <p className="text-sm font-black text-slate-200">{(isDemo ? simulatedOverage : 0).toFixed(0)} MB</p>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Overage Simulation Sandbox Card */}
-          <div className="glass-card p-6 rounded-2xl border border-slate-800/80 shadow-lg">
-            <h3 className="text-lg font-bold text-white flex items-center gap-2">
-              <Info className="w-5 h-5 text-sky-400" />
-              Recruiter Overage Simulation Sandbox
-            </h3>
-            <p className="text-xs text-slate-400 mt-1">
-              Add artificial backups or log files to exceed the 500 MB base tier and witness the automatic calculation of the Stripe invoice amount in real-time.
-            </p>
+          {isDemo && (
+            <div className="glass-card p-6 rounded-2xl border border-slate-800/80 shadow-lg">
+              <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                <Info className="w-5 h-5 text-sky-400" />
+                Recruiter Overage Simulation Sandbox
+              </h3>
+              <p className="text-xs text-slate-400 mt-1">
+                Add artificial backups or log files to exceed the 500 MB base tier and witness the automatic calculation of the Stripe invoice amount in real-time.
+              </p>
 
-            <div className="flex flex-wrap gap-3 mt-5">
-              <button
-                onClick={() => handleAddLogs(120)}
-                className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-xl border border-slate-800 bg-slate-900 text-sky-400 hover:text-sky-300 hover:bg-slate-800 transition shadow cursor-pointer"
-              >
-                <Plus className="w-3.5 h-3.5" />
-                Add Image Backups (+120 MB)
-              </button>
-              <button
-                onClick={() => handleAddLogs(350)}
-                className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-xl border border-slate-800 bg-slate-900 text-teal-400 hover:text-teal-300 hover:bg-slate-800 transition shadow cursor-pointer"
-              >
-                <Plus className="w-3.5 h-3.5" />
-                Add Heavy Video Logs (+350 MB)
-              </button>
-              <button
-                onClick={() => handleAddLogs(-150)}
-                className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-xl border border-slate-800 bg-slate-900 text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition shadow cursor-pointer"
-                disabled={simulatedOverage === 0}
-              >
-                Delete Selected Logs (-150 MB)
-              </button>
-              <button
-                onClick={() => handleAddLogs(-simulatedOverage)}
-                className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-xl border border-rose-900/40 bg-rose-950/20 text-rose-400 hover:text-rose-300 hover:bg-rose-900/20 transition shadow ml-auto cursor-pointer"
-                disabled={simulatedOverage === 0}
-              >
-                <Trash2 className="w-3.5 h-3.5" />
-                Reset Sandbox Logs
-              </button>
+              <div className="flex flex-wrap gap-3 mt-5">
+                <button
+                  onClick={() => handleAddLogs(120)}
+                  className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-xl border border-slate-800 bg-slate-900 text-sky-400 hover:text-sky-300 hover:bg-slate-800 transition shadow cursor-pointer"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  Add Image Backups (+120 MB)
+                </button>
+                <button
+                  onClick={() => handleAddLogs(350)}
+                  className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-xl border border-slate-800 bg-slate-900 text-teal-400 hover:text-teal-300 hover:bg-slate-800 transition shadow cursor-pointer"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  Add Heavy Video Logs (+350 MB)
+                </button>
+                <button
+                  onClick={() => handleAddLogs(-150)}
+                  className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-xl border border-slate-800 bg-slate-900 text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition shadow cursor-pointer"
+                  disabled={simulatedOverage === 0}
+                >
+                  Delete Selected Logs (-150 MB)
+                </button>
+                <button
+                  onClick={() => handleAddLogs(-simulatedOverage)}
+                  className="flex items-center gap-1.5 px-4 py-2 text-xs font-bold rounded-xl border border-rose-900/40 bg-rose-950/20 text-rose-400 hover:text-rose-300 hover:bg-rose-900/20 transition shadow ml-auto cursor-pointer"
+                  disabled={simulatedOverage === 0}
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                  Reset Sandbox Logs
+                </button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         {/* Right Col: Cost Summary and Payment Method info */}
@@ -368,7 +375,9 @@ export default function BillingPage() {
               
               <div className="flex justify-between items-start">
                 <div className="flex items-center gap-1 text-white text-xs font-black italic">
-                  <span className="bg-white/20 px-2 py-0.5 rounded text-[10px]">DEMO</span>
+                  <span className="bg-white/20 px-2 py-0.5 rounded text-[10px]">
+                    {isDemo ? 'DEMO' : 'ACTIVE'}
+                  </span>
                   <span>WashOps Portal</span>
                 </div>
                 <CreditCard className="w-8 h-8 text-white/90" />
