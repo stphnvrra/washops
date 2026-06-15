@@ -476,91 +476,89 @@ export default function BillingPage() {
 
       {/* Invoice PDF details Modal Receipt */}
       {selectedInvoice && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/80 backdrop-blur-sm">
-          <div className="flex min-h-full items-center justify-center p-4">
-            <div className="glass-card max-w-lg w-full p-8 rounded-3xl space-y-6 border border-slate-800 shadow-2xl relative">
-              
-              {/* Header info */}
-              <div className="flex justify-between items-start border-b border-slate-800/80 pb-4">
-                <div>
-                  <div className="flex items-center gap-1 text-white font-black italic text-lg">
-                    <span className="w-6 h-6 rounded bg-sky-500 flex items-center justify-center not-italic font-bold text-xs text-slate-900">W</span>
-                    <span>WashOps</span>
-                  </div>
-                  <p className="text-slate-500 text-[10px] mt-1 font-semibold tracking-wide uppercase font-sans">Official Stripe Receipt</p>
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/80 backdrop-blur-sm flex justify-center items-start p-4">
+          <div className="glass-card max-w-lg w-full p-8 rounded-3xl space-y-6 border border-slate-800 shadow-2xl relative my-auto">
+            
+            {/* Header info */}
+            <div className="flex justify-between items-start border-b border-slate-800/80 pb-4">
+              <div>
+                <div className="flex items-center gap-1 text-white font-black italic text-lg">
+                  <span className="w-6 h-6 rounded bg-sky-500 flex items-center justify-center not-italic font-bold text-xs text-slate-900">W</span>
+                  <span>WashOps</span>
                 </div>
-                <div className="text-right">
-                  <h4 className="text-base font-bold text-white font-mono">{selectedInvoice.id}</h4>
-                  <p className="text-xs text-slate-400 mt-1">Paid: {selectedInvoice.paidAt ? new Date(selectedInvoice.paidAt).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }) : 'N/A'}</p>
-                </div>
+                <p className="text-slate-500 text-[10px] mt-1 font-semibold tracking-wide uppercase font-sans">Official Stripe Receipt</p>
               </div>
-
-              {/* Entity billing details */}
-              <div className="grid grid-cols-2 gap-4 text-xs">
-                <div>
-                  <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-1">From</p>
-                  <p className="font-bold text-slate-300">WashOps Cloud Systems LLC</p>
-                  <p className="text-slate-400">100 Stripe Way</p>
-                  <p className="text-slate-400">San Francisco, CA 94103</p>
-                </div>
-                <div>
-                  <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-1">Billed To</p>
-                  <p className="font-bold text-slate-300">{user?.fullName || 'Shop Owner'}</p>
-                  <p className="text-slate-400 font-semibold text-[11px] text-sky-400">{user?.shopName || 'Laundry Shop'}</p>
-                  <p className="text-slate-400">{user?.email}</p>
-                </div>
+              <div className="text-right">
+                <h4 className="text-base font-bold text-white font-mono">{selectedInvoice.id}</h4>
+                <p className="text-xs text-slate-400 mt-1">Paid: {selectedInvoice.paidAt ? new Date(selectedInvoice.paidAt).toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }) : 'N/A'}</p>
               </div>
-
-              {/* Line items details table */}
-              <div className="space-y-2">
-                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Itemized charges</p>
-                <div className="rounded-xl border border-slate-800 bg-slate-950/40 p-4 space-y-3.5 text-xs text-slate-300">
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <p className="font-bold text-white">Starter Plan SaaS Subscription</p>
-                      <p className="text-[10px] text-slate-500">Base monthly fee allocation (500 MB included)</p>
-                    </div>
-                    <span className="font-mono text-slate-200">${selectedInvoice.baseFee.toFixed(2)}</span>
-                  </div>
-
-                  <div className="flex justify-between items-center border-t border-slate-900/60 pt-3">
-                    <div>
-                      <p className="font-bold text-white">Storage Overage logs charges</p>
-                      <p className="text-[10px] text-slate-500">Consumed: {selectedInvoice.storageUsedMB.toFixed(1)} MB (${(selectedInvoice.storageUsedMB - 500 > 0 ? selectedInvoice.storageUsedMB - 500 : 0).toFixed(0)} MB over limit)</p>
-                    </div>
-                    <span className="font-mono text-slate-200">${selectedInvoice.overageFee.toFixed(2)}</span>
-                  </div>
-
-                  <div className="flex justify-between items-center border-t border-slate-900 pt-3 text-sm font-bold text-white">
-                    <span>Total Amount Paid</span>
-                    <span className="font-mono text-emerald-400 flex items-center gap-1">
-                      <Check className="w-4 h-4 text-emerald-400" />
-                      ${selectedInvoice.totalAmount.toFixed(2)}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Receipt Modal action buttons */}
-              <div className="flex gap-3 pt-2">
-                <button
-                  onClick={() => {
-                    window.print();
-                  }}
-                  className="flex-1 py-2.5 rounded-xl border border-slate-800 bg-slate-900 hover:bg-slate-800 text-slate-300 text-sm font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer"
-                >
-                  <Printer className="w-4 h-4" />
-                  <span>Print Invoice</span>
-                </button>
-                <button
-                  onClick={() => setSelectedInvoice(null)}
-                  className="flex-1 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-white text-sm font-bold transition flex items-center justify-center cursor-pointer"
-                >
-                  <span>Close Receipt</span>
-                </button>
-              </div>
-
             </div>
+
+            {/* Entity billing details */}
+            <div className="grid grid-cols-2 gap-4 text-xs">
+              <div>
+                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-1">From</p>
+                <p className="font-bold text-slate-300">WashOps Cloud Systems LLC</p>
+                <p className="text-slate-400">100 Stripe Way</p>
+                <p className="text-slate-400">San Francisco, CA 94103</p>
+              </div>
+              <div>
+                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-1">Billed To</p>
+                <p className="font-bold text-slate-300">{user?.fullName || 'Shop Owner'}</p>
+                <p className="text-slate-400 font-semibold text-[11px] text-sky-400">{user?.shopName || 'Laundry Shop'}</p>
+                <p className="text-slate-400">{user?.email}</p>
+              </div>
+            </div>
+
+            {/* Line items details table */}
+            <div className="space-y-2">
+              <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Itemized charges</p>
+              <div className="rounded-xl border border-slate-800 bg-slate-950/40 p-4 space-y-3.5 text-xs text-slate-300">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <p className="font-bold text-white">Starter Plan SaaS Subscription</p>
+                    <p className="text-[10px] text-slate-500">Base monthly fee allocation (500 MB included)</p>
+                  </div>
+                  <span className="font-mono text-slate-200">${selectedInvoice.baseFee.toFixed(2)}</span>
+                </div>
+
+                <div className="flex justify-between items-center border-t border-slate-900/60 pt-3">
+                  <div>
+                    <p className="font-bold text-white">Storage Overage logs charges</p>
+                    <p className="text-[10px] text-slate-500">Consumed: {selectedInvoice.storageUsedMB.toFixed(1)} MB (${(selectedInvoice.storageUsedMB - 500 > 0 ? selectedInvoice.storageUsedMB - 500 : 0).toFixed(0)} MB over limit)</p>
+                  </div>
+                  <span className="font-mono text-slate-200">${selectedInvoice.overageFee.toFixed(2)}</span>
+                </div>
+
+                <div className="flex justify-between items-center border-t border-slate-900 pt-3 text-sm font-bold text-white">
+                  <span>Total Amount Paid</span>
+                  <span className="font-mono text-emerald-400 flex items-center gap-1">
+                    <Check className="w-4 h-4 text-emerald-400" />
+                    ${selectedInvoice.totalAmount.toFixed(2)}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Receipt Modal action buttons */}
+            <div className="flex gap-3 pt-2">
+              <button
+                onClick={() => {
+                  window.print();
+                }}
+                className="flex-1 py-2.5 rounded-xl border border-slate-800 bg-slate-900 hover:bg-slate-800 text-slate-300 text-sm font-semibold transition flex items-center justify-center gap-1.5 cursor-pointer"
+              >
+                <Printer className="w-4 h-4" />
+                <span>Print Invoice</span>
+              </button>
+              <button
+                onClick={() => setSelectedInvoice(null)}
+                className="flex-1 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-white text-sm font-bold transition flex items-center justify-center cursor-pointer"
+              >
+                <span>Close Receipt</span>
+              </button>
+            </div>
+
           </div>
         </div>
       )}

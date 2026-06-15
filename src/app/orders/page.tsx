@@ -346,72 +346,70 @@ export default function OrdersPage() {
 
       {/* QR Code Tag Modal */}
       {isQrOpen && selectedOrder && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/70 backdrop-blur-sm">
-          <div className="flex min-h-full items-center justify-center p-4">
-            <div className="glass-card max-w-sm w-full p-6 rounded-2xl text-center space-y-4">
-              <h3 className="text-lg font-bold text-white">Order Tracking Tag</h3>
-              <p className="text-xs text-slate-400">Scan or click to view tracking history</p>
-              
-              {/* Mock QR SVG */}
-              <div className="mx-auto w-40 h-40 bg-white p-3 rounded-xl shadow-lg border border-slate-200 flex items-center justify-center relative group">
-                <svg viewBox="0 0 100 100" className="w-full h-full text-slate-900">
-                  <rect x="0" y="0" width="100" height="100" fill="none" />
-                  {/* Outer corners */}
-                  <rect x="10" y="10" width="20" height="20" fill="currentColor" />
-                  <rect x="13" y="13" width="14" height="14" fill="white" />
-                  <rect x="16" y="16" width="8" height="8" fill="currentColor" />
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/70 backdrop-blur-sm flex justify-center items-start p-4">
+          <div className="glass-card max-w-sm w-full p-6 rounded-2xl text-center space-y-4 my-auto">
+            <h3 className="text-lg font-bold text-white">Order Tracking Tag</h3>
+            <p className="text-xs text-slate-400">Scan or click to view tracking history</p>
+            
+            {/* Mock QR SVG */}
+            <div className="mx-auto w-40 h-40 bg-white p-3 rounded-xl shadow-lg border border-slate-200 flex items-center justify-center relative group">
+              <svg viewBox="0 0 100 100" className="w-full h-full text-slate-900">
+                <rect x="0" y="0" width="100" height="100" fill="none" />
+                {/* Outer corners */}
+                <rect x="10" y="10" width="20" height="20" fill="currentColor" />
+                <rect x="13" y="13" width="14" height="14" fill="white" />
+                <rect x="16" y="16" width="8" height="8" fill="currentColor" />
 
-                  <rect x="70" y="10" width="20" height="20" fill="currentColor" />
-                  <rect x="73" y="13" width="14" height="14" fill="white" />
-                  <rect x="76" y="16" width="8" height="8" fill="currentColor" />
+                <rect x="70" y="10" width="20" height="20" fill="currentColor" />
+                <rect x="73" y="13" width="14" height="14" fill="white" />
+                <rect x="76" y="16" width="8" height="8" fill="currentColor" />
 
-                  <rect x="10" y="70" width="20" height="20" fill="currentColor" />
-                  <rect x="13" y="73" width="14" height="14" fill="white" />
-                  <rect x="16" y="76" width="8" height="8" fill="currentColor" />
-                  
-                  {/* Random QR code pixels */}
-                  <rect x="35" y="15" width="5" height="10" fill="currentColor" />
-                  <rect x="45" y="10" width="10" height="5" fill="currentColor" />
-                  <rect x="50" y="25" width="10" height="10" fill="currentColor" />
-                  <rect x="35" y="40" width="15" height="5" fill="currentColor" />
-                  <rect x="15" y="45" width="5" height="15" fill="currentColor" />
-                  <rect x="35" y="55" width="10" height="10" fill="currentColor" />
-                  <rect x="55" y="45" width="15" height="10" fill="currentColor" />
-                  <rect x="75" y="40" width="10" height="5" fill="currentColor" />
-                  <rect x="70" y="55" width="5" height="15" fill="currentColor" />
-                  <rect x="75" y="75" width="15" height="10" fill="currentColor" />
-                  <rect x="45" y="70" width="10" height="15" fill="currentColor" />
-                </svg>
-                {/* Inner water icon */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-slate-950/80 rounded-xl text-sky-400">
-                  <span className="text-[10px] font-bold">LMS Portal</span>
-                </div>
+                <rect x="10" y="70" width="20" height="20" fill="currentColor" />
+                <rect x="13" y="73" width="14" height="14" fill="white" />
+                <rect x="16" y="76" width="8" height="8" fill="currentColor" />
+                
+                {/* Random QR code pixels */}
+                <rect x="35" y="15" width="5" height="10" fill="currentColor" />
+                <rect x="45" y="10" width="10" height="5" fill="currentColor" />
+                <rect x="50" y="25" width="10" height="10" fill="currentColor" />
+                <rect x="35" y="40" width="15" height="5" fill="currentColor" />
+                <rect x="15" y="45" width="5" height="15" fill="currentColor" />
+                <rect x="35" y="55" width="10" height="10" fill="currentColor" />
+                <rect x="55" y="45" width="15" height="10" fill="currentColor" />
+                <rect x="75" y="40" width="10" height="5" fill="currentColor" />
+                <rect x="70" y="55" width="5" height="15" fill="currentColor" />
+                <rect x="75" y="75" width="15" height="10" fill="currentColor" />
+                <rect x="45" y="70" width="10" height="15" fill="currentColor" />
+              </svg>
+              {/* Inner water icon */}
+              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-slate-950/80 rounded-xl text-sky-400">
+                <span className="text-[10px] font-bold">LMS Portal</span>
               </div>
+            </div>
 
-              <div className="bg-slate-900/60 p-3 rounded-xl text-left border border-slate-800 text-xs space-y-1 text-slate-300">
-                <p><span className="text-slate-500 font-medium">Tag ID:</span> {selectedOrder.orderNumber}</p>
-                <p><span className="text-slate-500 font-medium">Customer:</span> {selectedOrder.customerName}</p>
-                <p><span className="text-slate-500 font-medium">Weight:</span> {selectedOrder.weight} kg</p>
-                <p><span className="text-slate-500 font-medium">Service:</span> {selectedOrder.serviceType}</p>
-                <p><span className="text-slate-500 font-medium">Status:</span> {selectedOrder.orderStatus}</p>
-              </div>
+            <div className="bg-slate-900/60 p-3 rounded-xl text-left border border-slate-800 text-xs space-y-1 text-slate-300">
+              <p><span className="text-slate-500 font-medium">Tag ID:</span> {selectedOrder.orderNumber}</p>
+              <p><span className="text-slate-500 font-medium">Customer:</span> {selectedOrder.customerName}</p>
+              <p><span className="text-slate-500 font-medium">Weight:</span> {selectedOrder.weight} kg</p>
+              <p><span className="text-slate-500 font-medium">Service:</span> {selectedOrder.serviceType}</p>
+              <p><span className="text-slate-500 font-medium">Status:</span> {selectedOrder.orderStatus}</p>
+            </div>
 
-              <div className="flex gap-2">
-                <a
-                  href={selectedOrder.trackingQr}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex-1 py-2 text-xs font-bold text-center rounded-xl bg-sky-500 hover:bg-sky-400 text-white transition"
-                >
-                  Scan Link
-                </a>
-                <button
-                  onClick={() => setIsQrOpen(false)}
-                  className="flex-1 py-2 text-xs font-bold rounded-xl border border-slate-800 bg-slate-900 text-slate-300 hover:bg-slate-800 transition"
-                >
-                  Close
-                </button>
-              </div>
+            <div className="flex gap-2">
+              <a
+                href={selectedOrder.trackingQr}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 py-2 text-xs font-bold text-center rounded-xl bg-sky-500 hover:bg-sky-400 text-white transition"
+              >
+                Scan Link
+              </a>
+              <button
+                onClick={() => setIsQrOpen(false)}
+                className="flex-1 py-2 text-xs font-bold rounded-xl border border-slate-800 bg-slate-900 text-slate-300 hover:bg-slate-800 transition"
+              >
+                Close
+              </button>
             </div>
           </div>
         </div>
@@ -419,137 +417,135 @@ export default function OrdersPage() {
 
       {/* New Order / Check-in Modal */}
       {isNewOrderOpen && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/70 backdrop-blur-sm">
-          <div className="flex min-h-full items-center justify-center p-4">
-            <div className="glass-card max-w-md w-full p-6 rounded-2xl space-y-5">
-              <div className="flex justify-between items-center border-b border-slate-800/60 pb-3">
-                <h3 className="text-lg font-bold text-white">Laundry Check-in Form</h3>
-                <button
-                  onClick={() => setIsNewOrderOpen(false)}
-                  className="text-slate-400 hover:text-white transition"
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/70 backdrop-blur-sm flex justify-center items-start p-4">
+          <div className="glass-card max-w-md w-full p-6 rounded-2xl space-y-5 my-auto">
+            <div className="flex justify-between items-center border-b border-slate-800/60 pb-3">
+              <h3 className="text-lg font-bold text-white">Laundry Check-in Form</h3>
+              <button
+                onClick={() => setIsNewOrderOpen(false)}
+                className="text-slate-400 hover:text-white transition"
+              >
+                Close
+              </button>
+            </div>
+
+            <form onSubmit={handleCreateOrder} className="space-y-4">
+              {/* Customer Selection */}
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Select Customer</label>
+                <select
+                  value={formCustomerId}
+                  onChange={(e) => setFormCustomerId(e.target.value)}
+                  required
+                  className="w-full px-3 py-2.5 text-sm rounded-xl bg-slate-950/60 border border-slate-800 text-slate-200 focus:outline-none focus:border-sky-500/50"
                 >
-                  Close
-                </button>
+                  <option value="" disabled>-- Choose Registered Customer --</option>
+                  {customers.map(c => (
+                    <option key={c.id} value={c.id}>
+                      {c.name} ({c.loyaltyPoints} pts)
+                    </option>
+                  ))}
+                </select>
+                <p className="text-[10px] text-slate-500 mt-1">
+                  Don't see your customer? Register them in the CRM tab first.
+                </p>
               </div>
 
-              <form onSubmit={handleCreateOrder} className="space-y-4">
-                {/* Customer Selection */}
+              {/* Service Selection */}
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Service Type</label>
+                <select
+                  value={formServiceType}
+                  onChange={(e) => setFormServiceType(e.target.value as ServiceType)}
+                  required
+                  className="w-full px-3 py-2.5 text-sm rounded-xl bg-slate-950/60 border border-slate-800 text-slate-200 focus:outline-none focus:border-sky-500/50"
+                >
+                  <option value="Wash-Dry-Fold">Wash-Dry-Fold (₱35.00/kg)</option>
+                  <option value="Wash-Dry-Press">Wash-Dry-Press (₱45.00/kg)</option>
+                  <option value="Dry Clean">Dry Clean (₱100.00/kg)</option>
+                  <option value="Ironing Only">Ironing Only (₱25.00/kg)</option>
+                </select>
+              </div>
+
+              {/* Weight & Extra charges */}
+              <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Select Customer</label>
-                  <select
-                    value={formCustomerId}
-                    onChange={(e) => setFormCustomerId(e.target.value)}
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Weight (kg)</label>
+                  <input
+                    type="number"
+                    step="0.1"
+                    min="0.5"
+                    value={formWeight}
+                    onChange={(e) => setFormWeight(parseFloat(e.target.value) || 0)}
                     required
                     className="w-full px-3 py-2.5 text-sm rounded-xl bg-slate-950/60 border border-slate-800 text-slate-200 focus:outline-none focus:border-sky-500/50"
-                  >
-                    <option value="" disabled>-- Choose Registered Customer --</option>
-                    {customers.map(c => (
-                      <option key={c.id} value={c.id}>
-                        {c.name} ({c.loyaltyPoints} pts)
-                      </option>
-                    ))}
-                  </select>
-                  <p className="text-[10px] text-slate-500 mt-1">
-                    Don't see your customer? Register them in the CRM tab first.
-                  </p>
-                </div>
-
-                {/* Service Selection */}
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Service Type</label>
-                  <select
-                    value={formServiceType}
-                    onChange={(e) => setFormServiceType(e.target.value as ServiceType)}
-                    required
-                    className="w-full px-3 py-2.5 text-sm rounded-xl bg-slate-950/60 border border-slate-800 text-slate-200 focus:outline-none focus:border-sky-500/50"
-                  >
-                    <option value="Wash-Dry-Fold">Wash-Dry-Fold (₱35.00/kg)</option>
-                    <option value="Wash-Dry-Press">Wash-Dry-Press (₱45.00/kg)</option>
-                    <option value="Dry Clean">Dry Clean (₱100.00/kg)</option>
-                    <option value="Ironing Only">Ironing Only (₱25.00/kg)</option>
-                  </select>
-                </div>
-
-                {/* Weight & Extra charges */}
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Weight (kg)</label>
-                    <input
-                      type="number"
-                      step="0.1"
-                      min="0.5"
-                      value={formWeight}
-                      onChange={(e) => setFormWeight(parseFloat(e.target.value) || 0)}
-                      required
-                      className="w-full px-3 py-2.5 text-sm rounded-xl bg-slate-950/60 border border-slate-800 text-slate-200 focus:outline-none focus:border-sky-500/50"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Extra Charges (₱)</label>
-                    <input
-                      type="number"
-                      step="1"
-                      min="0"
-                      value={formExtraPrice}
-                      onChange={(e) => setFormExtraPrice(parseInt(e.target.value) || 0)}
-                      className="w-full px-3 py-2.5 text-sm rounded-xl bg-slate-950/60 border border-slate-800 text-slate-200 focus:outline-none focus:border-sky-500/50"
-                    />
-                  </div>
-                </div>
-
-                {/* Notes */}
-                <div>
-                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Instructions / Notes</label>
-                  <textarea
-                    rows={2}
-                    placeholder="E.g., separate whites, wool garments, hangers requested..."
-                    value={formNotes}
-                    onChange={(e) => setFormNotes(e.target.value)}
-                    className="w-full px-3 py-2.5 text-sm rounded-xl bg-slate-950/60 border border-slate-800 text-slate-200 focus:outline-none focus:border-sky-500/50 resize-none"
                   />
                 </div>
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Extra Charges (₱)</label>
+                  <input
+                    type="number"
+                    step="1"
+                    min="0"
+                    value={formExtraPrice}
+                    onChange={(e) => setFormExtraPrice(parseInt(e.target.value) || 0)}
+                    className="w-full px-3 py-2.5 text-sm rounded-xl bg-slate-950/60 border border-slate-800 text-slate-200 focus:outline-none focus:border-sky-500/50"
+                  />
+                </div>
+              </div>
 
-                {/* Pricing breakdown summary */}
-                <div className="p-3.5 bg-slate-900/60 rounded-xl border border-slate-800 text-xs space-y-1.5 text-slate-300">
+              {/* Notes */}
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Instructions / Notes</label>
+                <textarea
+                  rows={2}
+                  placeholder="E.g., separate whites, wool garments, hangers requested..."
+                  value={formNotes}
+                  onChange={(e) => setFormNotes(e.target.value)}
+                  className="w-full px-3 py-2.5 text-sm rounded-xl bg-slate-950/60 border border-slate-800 text-slate-200 focus:outline-none focus:border-sky-500/50 resize-none"
+                />
+              </div>
+
+              {/* Pricing breakdown summary */}
+              <div className="p-3.5 bg-slate-900/60 rounded-xl border border-slate-800 text-xs space-y-1.5 text-slate-300">
+                <div className="flex justify-between">
+                  <span className="text-slate-500">Base Cost:</span>
+                  <span>₱{priceCalculations.basePrice.toFixed(2)}</span>
+                </div>
+                {formExtraPrice > 0 && (
                   <div className="flex justify-between">
-                    <span className="text-slate-500">Base Cost:</span>
-                    <span>₱{priceCalculations.basePrice.toFixed(2)}</span>
+                    <span className="text-slate-500">Extra Option:</span>
+                    <span>+ ₱{formExtraPrice.toFixed(2)}</span>
                   </div>
-                  {formExtraPrice > 0 && (
-                    <div className="flex justify-between">
-                      <span className="text-slate-500">Extra Option:</span>
-                      <span>+ ₱{formExtraPrice.toFixed(2)}</span>
-                    </div>
-                  )}
-                  {priceCalculations.discount > 0 && (
-                    <div className="flex justify-between text-emerald-400">
-                      <span>10% Loyalty Discount:</span>
-                      <span>- ₱{priceCalculations.discount.toFixed(2)}</span>
-                    </div>
-                  )}
-                  <div className="flex justify-between text-base font-bold text-white border-t border-slate-800/60 pt-1.5 mt-1">
-                    <span>Grand Total:</span>
-                    <span className="text-sky-400">₱{priceCalculations.totalPrice.toFixed(2)}</span>
+                )}
+                {priceCalculations.discount > 0 && (
+                  <div className="flex justify-between text-emerald-400">
+                    <span>10% Loyalty Discount:</span>
+                    <span>- ₱{priceCalculations.discount.toFixed(2)}</span>
                   </div>
+                )}
+                <div className="flex justify-between text-base font-bold text-white border-t border-slate-800/60 pt-1.5 mt-1">
+                  <span>Grand Total:</span>
+                  <span className="text-sky-400">₱{priceCalculations.totalPrice.toFixed(2)}</span>
                 </div>
+              </div>
 
-                <div className="flex gap-3 pt-2">
-                  <button
-                    type="submit"
-                    className="flex-1 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-bold text-sm transition shadow-lg shadow-sky-500/10"
-                  >
-                    Create Order
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setIsNewOrderOpen(false)}
-                    className="flex-1 py-2.5 rounded-xl border border-slate-800 bg-slate-900 text-slate-300 text-sm hover:bg-slate-800 transition"
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </form>
-            </div>
+              <div className="flex gap-3 pt-2">
+                <button
+                  type="submit"
+                  className="flex-1 py-2.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-white font-bold text-sm transition shadow-lg shadow-sky-500/10"
+                >
+                  Create Order
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsNewOrderOpen(false)}
+                  className="flex-1 py-2.5 rounded-xl border border-slate-800 bg-slate-900 text-slate-300 text-sm hover:bg-slate-800 transition"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

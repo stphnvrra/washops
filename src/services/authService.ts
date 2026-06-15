@@ -80,16 +80,17 @@ export const authService = {
         } else {
           console.warn('Supabase login returned empty user, falling back to Local Storage.');
         }
-      } catch (err: any) {
-        const errMsg = err?.message?.toLowerCase() || '';
+      } catch (err) {
+        const error = err as Error & { status?: number };
+        const errMsg = error.message?.toLowerCase() || '';
         if (
           errMsg.includes('api key') ||
           errMsg.includes('invalid') ||
           errMsg.includes('failed to fetch') ||
-          err?.status === 401 ||
-          err?.status === 403
+          error.status === 401 ||
+          error.status === 403
         ) {
-          console.warn('Supabase login exception, falling back to Local Storage:', err.message);
+          console.warn('Supabase login exception, falling back to Local Storage:', error.message);
         } else {
           throw err;
         }
@@ -165,16 +166,17 @@ export const authService = {
         } else {
           console.warn('Supabase signUp returned empty user, falling back to Local Storage.');
         }
-      } catch (err: any) {
-        const errMsg = err?.message?.toLowerCase() || '';
+      } catch (err) {
+        const error = err as Error & { status?: number };
+        const errMsg = error.message?.toLowerCase() || '';
         if (
           errMsg.includes('api key') ||
           errMsg.includes('invalid') ||
           errMsg.includes('failed to fetch') ||
-          err?.status === 401 ||
-          err?.status === 403
+          error.status === 401 ||
+          error.status === 403
         ) {
-          console.warn('Supabase registration exception, falling back to Local Storage:', err.message);
+          console.warn('Supabase registration exception, falling back to Local Storage:', error.message);
         } else {
           throw err;
         }
@@ -247,8 +249,9 @@ export const authService = {
         if (error) {
           console.warn('Supabase getSession error, falling back to cached user:', error.message);
         }
-      } catch (err: any) {
-        console.warn('Supabase getSession exception, falling back to cached user:', err.message);
+      } catch (err) {
+        const error = err as Error;
+        console.warn('Supabase getSession exception, falling back to cached user:', error.message);
       }
     }
 
